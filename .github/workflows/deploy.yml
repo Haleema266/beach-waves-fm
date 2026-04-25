@@ -9,10 +9,6 @@ permissions:
   pages: write
   id-token: write
 
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,16 +17,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # ✅ FIX: pnpm pehle install hoga
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "pnpm"
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 9
 
       - name: Install dependencies
         run: pnpm install
@@ -38,51 +35,39 @@ jobs:
       - name: Build project
         run: pnpm build
 
-      # 🔍 Debug: show project structure after build
-      - name: Debug file tree
+      # 🔍 Debug step (mujhe ye chahiye agar issue aaye)
+      - name: Show files after build
         run: |
-          echo "==== ROOT FILES ===="
+          echo "ROOT:"
           ls -la
-          echo "==== SEARCHING FOR index.html ===="
+          echo "SEARCH index.html:"
           find . -name "index.html"
 
-      # 🎯 Detect build output folder automatically
-      - name: Detect build output
+      # 🎯 Auto detect build folder
+      - name: Detect build folder
         id: detect
         run: |
           if [ -d "dist" ]; then
             echo "dir=dist" >> $GITHUB_OUTPUT
-          elif [ -d "build" ]; then
-            echo "dir=build" >> $GITHUB_OUTPUT
           elif [ -d ".caffeine/dist" ]; then
             echo "dir=.caffeine/dist" >> $GITHUB_OUTPUT
           else
-            # fallback: find folder containing index.html
             DIR=$(dirname $(find . -name "index.html" | head -n 1))
-            if [ -z "$DIR" ]; then
-              echo "❌ No build output found!"
-              exit 1
-            fi
             echo "dir=$DIR" >> $GITHUB_OUTPUT
           fi
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload artifact
+      - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
           path: ${{ steps.detect.outputs.dir }}
 
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    runs-on: ubuntu-latest
     needs: build
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - name: Deploy
         uses: actions/deploy-pages@v4
