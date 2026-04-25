@@ -20,15 +20,10 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install
       - run: pnpm build
-      # Hum check karenge ke files kahan hain aur unhein 'deploy_dist' folder mein copy karenge
-      - run: |
-          mkdir -p deploy_dist
-          if [ -d ".caffeine/dist" ]; then cp -r .caffeine/dist/* deploy_dist/; 
-          elif [ -d "dist" ]; then cp -r dist/* deploy_dist/; 
-          else cp -r ./* deploy_dist/; fi
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: ./deploy_dist
+          # Caffeine projects build hoker yahan jate hain
+          path: ./.caffeine/dist
   deploy:
     needs: build
     runs-on: ubuntu-latest
