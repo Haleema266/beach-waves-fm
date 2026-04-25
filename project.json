@@ -1,0 +1,23 @@
+{
+  "overview": "A retro beach-themed music player app with curated tropical channels, playback controls, and a favorites system — all wrapped in a sun-drenched 80s/90s aesthetic.",
+  "features": [
+    "Curated beach/tropical music channels",
+    "Playback controls with progress bar",
+    "Now-playing card with track info and album art",
+    "Favorites system to save tracks",
+    "Retro 80s/90s beach aesthetic with CRT scanlines",
+    "Mini-player visible while navigating",
+    "Dark mode by default with light mode toggle",
+    "Responsive design for mobile and desktop"
+  ],
+  "category": "entertainment",
+  "tags": [
+    "music",
+    "beach",
+    "retro",
+    "player",
+    "tropical",
+    "chill"
+  ],
+  "last_updated": "2026-04-25T08:07:18.810Z"
+}

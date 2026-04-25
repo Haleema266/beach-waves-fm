@@ -1,0 +1,170 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-display: Lora;
+    --font-body: "DM Sans";
+    --font-mono: "Geist Mono";
+    --radius: 0.875rem;
+
+    /* Light mode: warm cream backgrounds */
+    --background: 0.96 0.01 55;
+    --foreground: 0.12 0.02 260;
+    --card: 0.98 0.01 55;
+    --card-foreground: 0.12 0.02 260;
+    --popover: 0.98 0.01 55;
+    --popover-foreground: 0.12 0.02 260;
+
+    /* Primary: warm sand/amber */
+    --primary: 0.68 0.18 55;
+    --primary-foreground: 0.98 0.01 55;
+
+    /* Secondary: ocean teal */
+    --secondary: 0.65 0.12 185;
+    --secondary-foreground: 0.98 0.01 55;
+    --muted: 0.92 0.01 0;
+    --muted-foreground: 0.45 0.01 260;
+
+    /* Accent: hot coral/pink */
+    --accent: 0.62 0.19 15;
+    --accent-foreground: 0.98 0.01 55;
+
+    --destructive: 0.55 0.22 25;
+    --destructive-foreground: 0.98 0.01 55;
+
+    --border: 0.88 0.02 55;
+    --input: 0.88 0.02 55;
+    --ring: 0.68 0.18 55;
+
+    --chart-1: 0.68 0.18 55;
+    --chart-2: 0.65 0.12 185;
+    --chart-3: 0.62 0.19 15;
+    --chart-4: 0.72 0.15 85;
+    --chart-5: 0.58 0.14 275;
+
+    --sidebar: 0.96 0.01 55;
+    --sidebar-foreground: 0.12 0.02 260;
+    --sidebar-primary: 0.68 0.18 55;
+    --sidebar-primary-foreground: 0.98 0.01 55;
+    --sidebar-accent: 0.62 0.19 15;
+    --sidebar-accent-foreground: 0.98 0.01 55;
+    --sidebar-border: 0.88 0.02 55;
+    --sidebar-ring: 0.68 0.18 55;
+  }
+
+  .dark {
+    /* Dark mode: deep navy with tropical accents */
+    --background: 0.12 0.01 260;
+    --foreground: 0.92 0.01 55;
+    --card: 0.16 0.02 260;
+    --card-foreground: 0.92 0.01 55;
+    --popover: 0.2 0.02 260;
+    --popover-foreground: 0.92 0.01 55;
+
+    /* Primary: bright sand for interactive */
+    --primary: 0.78 0.16 55;
+    --primary-foreground: 0.12 0.02 260;
+
+    /* Secondary: bright teal */
+    --secondary: 0.72 0.15 185;
+    --secondary-foreground: 0.92 0.01 55;
+    --muted: 0.25 0.01 260;
+    --muted-foreground: 0.6 0.01 55;
+
+    /* Accent: vibrant coral */
+    --accent: 0.68 0.22 15;
+    --accent-foreground: 0.12 0.02 260;
+
+    --destructive: 0.65 0.19 22;
+    --destructive-foreground: 0.92 0.01 55;
+
+    --border: 0.24 0.02 260;
+    --input: 0.24 0.02 260;
+    --ring: 0.78 0.16 55;
+
+    --chart-1: 0.78 0.16 55;
+    --chart-2: 0.72 0.15 185;
+    --chart-3: 0.68 0.22 15;
+    --chart-4: 0.75 0.18 85;
+    --chart-5: 0.65 0.16 275;
+
+    --sidebar: 0.16 0.02 260;
+    --sidebar-foreground: 0.92 0.01 55;
+    --sidebar-primary: 0.78 0.16 55;
+    --sidebar-primary-foreground: 0.12 0.02 260;
+    --sidebar-accent: 0.68 0.22 15;
+    --sidebar-accent-foreground: 0.92 0.01 55;
+    --sidebar-border: 0.24 0.02 260;
+    --sidebar-ring: 0.78 0.16 55;
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+}
+
+@font-face {
+  font-family: Lora;
+  src: url(/assets/fonts/Lora.woff2) format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url(/assets/fonts/DMSans.woff2) format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url(/assets/fonts/GeistMono.woff2) format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+}
+
+@layer utilities {
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Retro beveled button effect */
+  .btn-retro {
+    @apply relative shadow-md hover:shadow-sm active:shadow-inner transition-smooth;
+    border-radius: 0.875rem;
+  }
+
+  /* CRT scanline overlay effect */
+  .scanlines::before {
+    content: "";
+    @apply absolute inset-0 pointer-events-none;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.08),
+      rgba(0, 0, 0, 0.08) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+  }
+
+  /* Tropical gradient accent */
+  .gradient-tropical {
+    background: linear-gradient(
+      135deg,
+      oklch(var(--primary)),
+      oklch(var(--accent))
+    );
+  }
+
+  /* Retro button with text shadow */
+  .btn-tropical {
+    @apply px-6 py-3 font-bold rounded-lg btn-retro;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  }
+}
