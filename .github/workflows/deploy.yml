@@ -20,10 +20,19 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install
       - run: pnpm build
+      # Yeh step har jagah check karega ke index.html kahan hai
+      - name: Find and Prepare Build
+        run: |
+          mkdir -p final_output
+          if [ -d "dist" ]; then cp -r dist/* final_output/;
+          elif [ -d ".caffeine/dist" ]; then cp -r .caffeine/dist/* final_output/;
+          else
+            # Agar koi dist folder na mile to poori repo ko output bana do
+            cp -r ./* final_output/
+          fi
       - uses: actions/upload-pages-artifact@v3
         with:
-          # Caffeine projects build hoker yahan jate hain
-          path: ./.caffeine/dist
+          path: ./final_output
   deploy:
     needs: build
     runs-on: ubuntu-latest
